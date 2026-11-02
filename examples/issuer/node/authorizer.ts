@@ -1,8 +1,8 @@
 import { serve } from '@hono/node-server';
-import { issuer } from '@openauthjs/openauth';
-import { PasswordProvider } from '@openauthjs/openauth/provider/password';
-import { MemoryStorage } from '@openauthjs/openauth/storage/memory';
-import { PasswordUI } from '@openauthjs/openauth/ui/password';
+import { issuer } from '@kjanat/openauth';
+import { PasswordProvider } from '@kjanat/openauth/provider/password';
+import { MemoryStorage } from '@kjanat/openauth/storage/memory';
+import { PasswordUI } from '@kjanat/openauth/ui/password';
 import { subjects } from '../../subjects';
 
 async function getUser(email: string) {

@@ -1,5 +1,8 @@
 {
 	"name": "lambda-api",
 	"version": "0.0.0",
-	"private": true
+	"private": true,
+	"dependencies": {
+		"@kjanat/openauth": "workspace:*"
+	}
 }

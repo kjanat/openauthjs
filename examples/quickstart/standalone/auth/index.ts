@@ -1,7 +1,7 @@
-import { issuer } from '@openauthjs/openauth';
-import { CodeProvider } from '@openauthjs/openauth/provider/code';
-import { MemoryStorage } from '@openauthjs/openauth/storage/memory';
-import { CodeUI } from '@openauthjs/openauth/ui/code';
+import { issuer } from '@kjanat/openauth';
+import { CodeProvider } from '@kjanat/openauth/provider/code';
+import { MemoryStorage } from '@kjanat/openauth/storage/memory';
+import { CodeUI } from '@kjanat/openauth/ui/code';
 import { subjects } from './subjects';
 
 async function getUser(email: string) {

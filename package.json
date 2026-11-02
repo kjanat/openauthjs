@@ -17,7 +17,9 @@
 	},
 	"devDependencies": {
 		"@kjanat/fmt": "0.60.6",
+		"@kjanat/openauth": "workspace:*",
 		"@tsconfig/node22": "22.0.0",
-		"@types/bun": "1.4.4"
+		"@types/bun": "1.4.4",
+		"valibot": "1.0.0-beta.15"
 	}
 }

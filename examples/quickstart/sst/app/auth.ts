@@ -1,4 +1,4 @@
-import { createClient } from '@openauthjs/openauth/client';
+import { createClient } from '@kjanat/openauth/client';
 import { cookies as getCookies } from 'next/headers';
 import { Resource } from 'sst';
 

@@ -1,4 +1,4 @@
-import { createClient } from '@openauthjs/openauth/client';
+import { createClient } from '@kjanat/openauth/client';
 import { Context, Hono } from 'hono';
 import { handle } from 'hono/aws-lambda';
 import { getCookie, setCookie } from 'hono/cookie';

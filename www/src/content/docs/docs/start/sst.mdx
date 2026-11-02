@@ -23,7 +23,7 @@ We are going to authenticate users by sending them a code to verify their email 
 Let's start by creating our Next.js app and starting it in dev mode.
 
 ```bash
-npx create-next-app@latest oa-nextjs
+bunx create-next-app@latest oa-nextjs
 cd oa-nextjs
 ```
 
@@ -36,7 +36,7 @@ We are picking **TypeScript** and not selecting **ESLint**.
 Now let's initialize SST in our app.
 
 ```bash
-npx sst@latest init
+bunx sst@latest init
 ```
 
 Select the defaults and pick **AWS**. This'll create a `sst.config.ts` file in your project root.
@@ -114,7 +114,7 @@ export const subjects = createSubjects({
 Let's install our dependencies.
 
 ```bash
-npm install @kjanat/openauth valibot hono
+bun add @kjanat/openauth valibot hono
 ```
 
 ---
@@ -142,7 +142,7 @@ This is defining our OpenAuth component and linking it to our Next.js app.
 Run the following to start dev mode. This'll start SST, your Next.js app, and your OpenAuth server.
 
 ```bash
-npx sst dev
+bunx sst dev
 ```
 
 Once complete, it should give you the URL of your OpenAuth server.
@@ -409,7 +409,7 @@ This should log you in and print your user ID.
 Now let's deploy your app to AWS.
 
 ```bash
-npx sst deploy --stage production
+bunx sst deploy --stage production
 ```
 
 You can use any stage name here but it's good to create a new stage for production.
