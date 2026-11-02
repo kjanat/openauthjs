@@ -1,0 +1,54 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"forkProcessing": "enabled",
+	"minimumReleaseAge": "3 days",
+	"automerge": true,
+	"rebaseWhen": "conflicted",
+	"labels": ["dependencies"],
+	"assignees": ["kjanat"],
+	"gitIgnoredAuthors": ["41898282+github-actions[bot]@users.noreply.github.com"],
+	"ignorePaths": ["**/node_modules/**"],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"description": "Extract the top-level Bun catalogs that the built-in manager does not read.",
+			"managerFilePatterns": ["/^package\\.json$/"],
+			"matchStringsStrategy": "recursive",
+			"matchStrings": [
+				"\"catalogs?\"\\s*:\\s*\\{[\\s\\S]*?\\n\\t\\}",
+				"\"(?<depName>[^\"\\n]+)\"\\s*:\\s*\"(?:npm:(?<packageName>@?[^\"\\n]+?)@)?(?<currentValue>[^\"\\n:]+)\""
+			],
+			"datasourceTemplate": "npm",
+			"versioningTemplate": "npm"
+		}
+	],
+	"packageRules": [
+		{
+			"matchUpdateTypes": ["major"],
+			"automerge": false
+		},
+		{
+			"description": "typescript-eslint and Next.js 15 need TypeScript below 6.1.",
+			"matchDepNames": ["typescript"],
+			"matchCurrentVersion": "<7",
+			"allowedVersions": "<6.1"
+		},
+		{
+			"groupName": "astro",
+			"matchPackageNames": ["astro", "@astrojs/**", "toolbeam-docs-theme"]
+		},
+		{
+			"groupName": "sveltekit",
+			"matchPackageNames": ["svelte", "svelte-check", "@sveltejs/**"]
+		},
+		{
+			"groupName": "react",
+			"matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"]
+		},
+		{
+			"groupName": "wrangler",
+			"matchPackageNames": ["wrangler"]
+		}
+	]
+}
