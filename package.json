@@ -13,7 +13,7 @@
 		"release": "bun run --filter=\"@kjanat/openauth\" build && changeset publish"
 	},
 	"dependencies": {
-		"@changesets/cli": "2.27.10",
+		"@changesets/cli": "3.0.3",
 		"typescript": "catalog:"
 	},
 	"devDependencies": {
