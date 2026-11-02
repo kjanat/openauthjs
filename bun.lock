@@ -162,6 +162,9 @@
       },
     },
   },
+  "trustedDependencies": [
+    "@kprint/kprint",
+  ],
   "overrides": {
     "postcss": "8.5.32",
   },
