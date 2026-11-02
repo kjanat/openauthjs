@@ -201,7 +201,6 @@ import { getRelativeUrl, isDomainMatch, lazy } from "./util.js"
 import { DynamoStorage } from "./storage/dynamo.js"
 import { MemoryStorage } from "./storage/memory.js"
 import { cors } from "hono/cors"
-import { logger } from "hono/logger"
 
 /** @internal */
 export const aws = awsHandle
@@ -409,6 +408,11 @@ export interface IssuerInput<
    * @internal
    */
   error?(error: UnknownStateError, req: Request): Promise<Response>
+  /**
+   * Observe errors handled by the issuer before they are converted into an
+   * OAuth redirect or an error response.
+   */
+  onError?(error: Error, req: Request): void | Promise<void>
   /**
    * Override the logic for whether a client request is allowed to call the issuer.
    *
@@ -694,6 +698,7 @@ export function issuer<
         iss: issuer(ctx),
         sub: value.subject,
       })
+        .setIssuedAt(accessTimeUsed)
         .setExpirationTime(Math.floor(accessTimeUsed + value.ttl.access))
         .setProtectedHeader(
           await signingKey().then((k) => ({
@@ -729,7 +734,7 @@ export function issuer<
     Variables: {
       authorization: AuthorizationState
     }
-  }>().use(logger())
+  }>()
 
   for (const [name, value] of Object.entries(input.providers)) {
     const route = new Hono<any>()
@@ -781,7 +786,8 @@ export function issuer<
         authorization_endpoint: `${iss}/authorize`,
         token_endpoint: `${iss}/token`,
         jwks_uri: `${iss}/.well-known/jwks.json`,
-        response_types_supported: ["code", "token"],
+        response_types_supported: ["code"],
+        code_challenge_methods_supported: ["S256"],
       })
     },
   )
@@ -877,8 +883,17 @@ export function issuer<
             )
           }
         }
-        const tokens = await generateTokens(c, payload)
-        await Storage.remove(storage, key)
+        const consumed = await Storage.consume<typeof payload>(storage, key)
+        if (!consumed) {
+          return c.json(
+            {
+              error: "invalid_grant",
+              error_description: "Authorization code has been used or expired",
+            },
+            400,
+          )
+        }
+        const tokens = await generateTokens(c, consumed)
         return c.json({
           access_token: tokens.access,
           expires_in: tokens.expiresIn,
@@ -1137,7 +1152,9 @@ export function issuer<
   })
 
   app.onError(async (err, c) => {
-    console.error(err)
+    if (err instanceof UnknownStateError) console.warn(err)
+    else console.error(err)
+    await input.onError?.(err, c.req.raw)
     if (err instanceof UnknownStateError) {
       return auth.forward(c, await error(err, c.req.raw))
     }
@@ -1149,6 +1166,9 @@ export function issuer<
         : new OauthError("server_error", err.message)
     url.searchParams.set("error", oauth.error)
     url.searchParams.set("error_description", oauth.description)
+    if (typeof authorization.state === "string") {
+      url.searchParams.set("state", authorization.state)
+    }
     return c.redirect(url.toString())
   })
 

@@ -116,6 +116,16 @@ describe("code flow", () => {
         userID: "123",
       },
     })
+    const claims = JSON.parse(atob(tokens.access.split(".")[1]))
+    expect(claims.iat).toBe(Math.floor(Date.now() / 1000))
+    expect(claims.exp - claims.iat).toBe(60)
+
+    const reused = await client.exchange(
+      code!,
+      "https://client.example.com/callback",
+      challenge.verifier,
+    )
+    expect(reused.err).toBeDefined()
   })
 })
 

@@ -55,6 +55,12 @@
 import { Context } from "hono"
 import { Provider } from "./provider.js"
 import { generateUnbiasedDigits, timingSafeCompare } from "../random.js"
+import { UnknownStateError } from "../error.js"
+
+export interface CodeProviderRequest {
+  action: "request" | "resend"
+  request: Request
+}
 
 export interface CodeProviderConfig<
   Claims extends Record<string, string> = Record<string, string>,
@@ -95,7 +101,11 @@ export interface CodeProviderConfig<
    * }
    * ```
    */
-  sendCode: (claims: Claims, code: string) => Promise<void | CodeProviderError>
+  sendCode: (
+    claims: Claims,
+    code: string,
+    request: CodeProviderRequest,
+  ) => Promise<void | CodeProviderError>
 }
 
 /**
@@ -146,13 +156,19 @@ export function CodeProvider<
   return {
     type: "code",
     init(routes, ctx) {
+      async function requireAuthorization(c: Context) {
+        if (!(await ctx.get(c, "authorization"))) {
+          throw new UnknownStateError()
+        }
+      }
+
       async function transition(
         c: Context,
         next: CodeProviderState,
         fd?: FormData,
         err?: CodeProviderError,
       ) {
-        await ctx.set<CodeProviderState>(c, "provider", 60 * 60 * 24, next)
+        await ctx.set<CodeProviderState>(c, "provider", 60 * 10, next)
         const resp = ctx.forward(
           c,
           await config.request(c.req.raw, next, fd, err),
@@ -160,6 +176,7 @@ export function CodeProvider<
         return resp
       }
       routes.get("/authorize", async (c) => {
+        await requireAuthorization(c)
         const resp = await transition(c, {
           type: "start",
         })
@@ -167,15 +184,20 @@ export function CodeProvider<
       })
 
       routes.post("/authorize", async (c) => {
-        const code = generate()
+        await requireAuthorization(c)
         const fd = await c.req.formData()
         const state = await ctx.get<CodeProviderState>(c, "provider")
+        if (!state) throw new UnknownStateError()
         const action = fd.get("action")?.toString()
 
         if (action === "request" || action === "resend") {
+          const code = generate()
           const claims = Object.fromEntries(fd) as Claims
           delete claims.action
-          const err = await config.sendCode(claims, code)
+          const err = await config.sendCode(claims, code, {
+            action,
+            request: c.req.raw,
+          })
           if (err) return transition(c, { type: "start" }, fd, err)
           return transition(
             c,

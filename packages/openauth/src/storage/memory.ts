@@ -96,6 +96,15 @@ export function MemoryStorage(input?: MemoryStorageOptions): StorageAdapter {
       }
       return entry.value
     },
+    async consume(key: string[]) {
+      const match = search(joinKey(key))
+      if (!match.found) return undefined
+      const entry = store[match.index][1]
+      store.splice(match.index, 1)
+      await save()
+      if (entry.expiry && Date.now() >= entry.expiry) return undefined
+      return entry.value
+    },
     async set(key: string[], value: any, expiry?: Date) {
       const joined = joinKey(key)
       const match = search(joined)

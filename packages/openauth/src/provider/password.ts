@@ -51,6 +51,12 @@ export interface PasswordHasher<T> {
   verify(password: string, compare: T): Promise<boolean>
 }
 
+export interface PasswordCodeRequest {
+  request: Request
+  resend: boolean
+  type: "register" | "password-reset"
+}
+
 export interface PasswordConfig {
   /**
    * @internal
@@ -125,7 +131,11 @@ export interface PasswordConfig {
    * }
    * ```
    */
-  sendCode: (email: string, code: string) => Promise<void>
+  sendCode: (
+    email: string,
+    code: string,
+    request: PasswordCodeRequest,
+  ) => Promise<void>
   /**
    * Callback to validate the password on sign up and password reset.
    *
@@ -314,7 +324,7 @@ export function PasswordProvider(
         const state: PasswordRegisterState = {
           type: "start",
         }
-        await ctx.set(c, "provider", 60 * 60 * 24, state)
+        await ctx.set(c, "provider", 60 * 10, state)
         return ctx.forward(c, await config.register(c.req.raw, state))
       })
 
@@ -328,12 +338,7 @@ export function PasswordProvider(
           next: PasswordRegisterState,
           err?: PasswordRegisterError,
         ) {
-          await ctx.set<PasswordRegisterState>(
-            c,
-            "provider",
-            60 * 60 * 24,
-            next,
-          )
+          await ctx.set<PasswordRegisterState>(c, "provider", 60 * 10, next)
           return ctx.forward(c, await config.register(c.req.raw, next, fd, err))
         }
 
@@ -377,7 +382,11 @@ export function PasswordProvider(
           ])
           if (existing) return transition(provider, { type: "email_taken" })
           const code = generate()
-          await config.sendCode(email, code)
+          await config.sendCode(email, code, {
+            request: c.req.raw,
+            resend: false,
+            type: "register",
+          })
           return transition({
             type: "code",
             code,
@@ -388,7 +397,11 @@ export function PasswordProvider(
 
         if (action === "register" && provider.type === "code") {
           const code = generate()
-          await config.sendCode(provider.email, code)
+          await config.sendCode(provider.email, code, {
+            request: c.req.raw,
+            resend: true,
+            type: "register",
+          })
           return transition({
             type: "code",
             code,
@@ -428,7 +441,7 @@ export function PasswordProvider(
           type: "start",
           redirect,
         }
-        await ctx.set(c, "provider", 60 * 60 * 24, state)
+        await ctx.set(c, "provider", 60 * 10, state)
         return ctx.forward(c, await config.change(c.req.raw, state))
       })
 
@@ -442,7 +455,7 @@ export function PasswordProvider(
           next: PasswordChangeState,
           err?: PasswordChangeError,
         ) {
-          await ctx.set<PasswordChangeState>(c, "provider", 60 * 60 * 24, next)
+          await ctx.set<PasswordChangeState>(c, "provider", 60 * 10, next)
           return ctx.forward(c, await config.change(c.req.raw, next, fd, err))
         }
 
@@ -454,7 +467,11 @@ export function PasswordProvider(
               { type: "invalid_email" },
             )
           const code = generate()
-          await config.sendCode(email, code)
+          await config.sendCode(email, code, {
+            request: c.req.raw,
+            resend: provider.type === "code",
+            type: "password-reset",
+          })
 
           return transition({
             type: "code",

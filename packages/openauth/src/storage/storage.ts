@@ -1,5 +1,10 @@
 export interface StorageAdapter {
   get(key: string[]): Promise<Record<string, any> | undefined>
+  /**
+   * Atomically return and remove a value. Adapters storing authorization codes
+   * should implement this to prevent concurrent redemption.
+   */
+  consume?(key: string[]): Promise<Record<string, any> | undefined>
   remove(key: string[]): Promise<void>
   set(key: string[], value: any, expiry?: Date): Promise<void>
   scan(prefix: string[]): AsyncIterable<[string[], any]>
@@ -21,6 +26,14 @@ export namespace Storage {
   }
   export function get<T>(adapter: StorageAdapter, key: string[]) {
     return adapter.get(encode(key)) as Promise<T | null>
+  }
+
+  export async function consume<T>(adapter: StorageAdapter, key: string[]) {
+    const encoded = encode(key)
+    if (!adapter.consume) {
+      throw new Error("Storage adapter does not support atomic consumption")
+    }
+    return adapter.consume(encoded) as Promise<T | null>
   }
 
   export function set(

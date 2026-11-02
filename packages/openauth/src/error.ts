@@ -80,6 +80,7 @@ export class UnknownStateError extends Error {
     super(
       "The browser was in an unknown state. This could be because certain cookies expired or the browser was switched in the middle of an authentication flow.",
     )
+    this.name = "UnknownStateError"
   }
 }
 
