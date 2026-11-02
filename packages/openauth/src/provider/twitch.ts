@@ -17,7 +17,7 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
 
 export interface TwitchConfig extends Oauth2WrappedConfig {}
 
@@ -34,12 +34,12 @@ export interface TwitchConfig extends Oauth2WrappedConfig {}
  * ```
  */
 export function TwitchProvider(config: TwitchConfig) {
-  return Oauth2Provider({
-    type: "twitch",
-    ...config,
-    endpoint: {
-      authorization: "https://id.twitch.tv/oauth2/authorize",
-      token: "https://id.twitch.tv/oauth2/token",
-    },
-  })
+	return Oauth2Provider({
+		type: 'twitch',
+		...config,
+		endpoint: {
+			authorization: 'https://id.twitch.tv/oauth2/authorize',
+			token: 'https://id.twitch.tv/oauth2/token',
+		},
+	});
 }

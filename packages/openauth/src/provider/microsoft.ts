@@ -34,23 +34,23 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
-import { OidcProvider, OidcWrappedConfig } from "./oidc.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
+import { OidcProvider, OidcWrappedConfig } from './oidc.js';
 
 export interface MicrosoftConfig extends Oauth2WrappedConfig {
-  /**
-   * The tenant ID of the Microsoft account.
-   *
-   * This is usually the same as the client ID.
-   *
-   * @example
-   * ```ts
-   * {
-   *   tenant: "1234567890"
-   * }
-   * ```
-   */
-  tenant: string
+	/**
+	 * The tenant ID of the Microsoft account.
+	 *
+	 * This is usually the same as the client ID.
+	 *
+	 * @example
+	 * ```ts
+	 * {
+	 *   tenant: "1234567890"
+	 * }
+	 * ```
+	 */
+	tenant: string;
 }
 export interface MicrosoftOidcConfig extends OidcWrappedConfig {}
 
@@ -68,14 +68,14 @@ export interface MicrosoftOidcConfig extends OidcWrappedConfig {}
  * ```
  */
 export function MicrosoftProvider(config: MicrosoftConfig) {
-  return Oauth2Provider({
-    ...config,
-    type: "microsoft",
-    endpoint: {
-      authorization: `https://login.microsoftonline.com/${config?.tenant}/oauth2/v2.0/authorize`,
-      token: `https://login.microsoftonline.com/${config?.tenant}/oauth2/v2.0/token`,
-    },
-  })
+	return Oauth2Provider({
+		...config,
+		type: 'microsoft',
+		endpoint: {
+			authorization: `https://login.microsoftonline.com/${config?.tenant}/oauth2/v2.0/authorize`,
+			token: `https://login.microsoftonline.com/${config?.tenant}/oauth2/v2.0/token`,
+		},
+	});
 }
 
 /**
@@ -92,9 +92,9 @@ export function MicrosoftProvider(config: MicrosoftConfig) {
  * ```
  */
 export function MicrosoftOidcProvider(config: MicrosoftOidcConfig) {
-  return OidcProvider({
-    ...config,
-    type: "microsoft",
-    issuer: "https://graph.microsoft.com/oidc/userinfo",
-  })
+	return OidcProvider({
+		...config,
+		type: 'microsoft',
+		issuer: 'https://graph.microsoft.com/oidc/userinfo',
+	});
 }

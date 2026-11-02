@@ -1,15 +1,15 @@
 {
-  "name": "@openauthjs/example-client-astro",
-  "type": "module",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@kjanat/openauth": "workspace:*",
-    "astro": "5.0.2"
-  }
+	"name": "@openauthjs/example-client-astro",
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"dev": "astro dev",
+		"preview": "astro preview"
+	},
+	"dependencies": {
+		"@kjanat/openauth": "workspace:*",
+		"astro": "5.0.2"
+	}
 }

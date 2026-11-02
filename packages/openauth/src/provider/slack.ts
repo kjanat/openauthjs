@@ -19,26 +19,26 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
 
 export interface SlackConfig extends Oauth2WrappedConfig {
-  /**
-   * The workspace the user is intending to authenticate.
-   *
-   * If that workspace has been previously authenticated, the user will be signed in directly,
-   * bypassing the consent screen.
-   */
-  team: string
-  /**
-   * The scopes to request from the user.
-   *
-   * | Scope | Description |
-   * |-|-|
-   * | `email` | Grants permission to access the user's email address. |
-   * | `profile` | Grants permission to access the user's profile information. |
-   * | `openid` | Grants permission to use OpenID Connect to verify the user's identity. |
-   */
-  scopes: ("email" | "profile" | "openid")[]
+	/**
+	 * The workspace the user is intending to authenticate.
+	 *
+	 * If that workspace has been previously authenticated, the user will be signed in directly,
+	 * bypassing the consent screen.
+	 */
+	team: string;
+	/**
+	 * The scopes to request from the user.
+	 *
+	 * | Scope | Description |
+	 * |-|-|
+	 * | `email` | Grants permission to access the user's email address. |
+	 * | `profile` | Grants permission to access the user's profile information. |
+	 * | `openid` | Grants permission to use OpenID Connect to verify the user's identity. |
+	 */
+	scopes: ('email' | 'profile' | 'openid')[];
 }
 
 /**
@@ -56,12 +56,12 @@ export interface SlackConfig extends Oauth2WrappedConfig {
  * ```
  */
 export function SlackProvider(config: SlackConfig) {
-  return Oauth2Provider({
-    ...config,
-    type: "slack",
-    endpoint: {
-      authorization: "https://slack.com/openid/connect/authorize",
-      token: "https://slack.com/api/openid.connect.token",
-    },
-  })
+	return Oauth2Provider({
+		...config,
+		type: 'slack',
+		endpoint: {
+			authorization: 'https://slack.com/openid/connect/authorize',
+			token: 'https://slack.com/api/openid.connect.token',
+		},
+	});
 }

@@ -19,31 +19,31 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
 
 export interface CognitoConfig extends Oauth2WrappedConfig {
-  /**
-   * The domain of the Cognito User Pool.
-   *
-   * @example
-   * ```ts
-   * {
-   *   domain: "your-domain.auth.us-east-1.amazoncognito.com"
-   * }
-   * ```
-   */
-  domain: string
-  /**
-   * The region the Cognito User Pool is in.
-   *
-   * @example
-   * ```ts
-   * {
-   *   region: "us-east-1"
-   * }
-   * ```
-   */
-  region: string
+	/**
+	 * The domain of the Cognito User Pool.
+	 *
+	 * @example
+	 * ```ts
+	 * {
+	 *   domain: "your-domain.auth.us-east-1.amazoncognito.com"
+	 * }
+	 * ```
+	 */
+	domain: string;
+	/**
+	 * The region the Cognito User Pool is in.
+	 *
+	 * @example
+	 * ```ts
+	 * {
+	 *   region: "us-east-1"
+	 * }
+	 * ```
+	 */
+	region: string;
 }
 
 /**
@@ -61,14 +61,14 @@ export interface CognitoConfig extends Oauth2WrappedConfig {
  * ```
  */
 export function CognitoProvider(config: CognitoConfig) {
-  const domain = `${config.domain}.auth.${config.region}.amazoncognito.com`
+	const domain = `${config.domain}.auth.${config.region}.amazoncognito.com`;
 
-  return Oauth2Provider({
-    type: "cognito",
-    ...config,
-    endpoint: {
-      authorization: `https://${domain}/oauth2/authorize`,
-      token: `https://${domain}/oauth2/token`,
-    },
-  })
+	return Oauth2Provider({
+		type: 'cognito',
+		...config,
+		endpoint: {
+			authorization: `https://${domain}/oauth2/authorize`,
+			token: `https://${domain}/oauth2/token`,
+		},
+	});
 }

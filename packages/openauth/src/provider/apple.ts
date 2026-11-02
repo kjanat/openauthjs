@@ -51,16 +51,16 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
-import { OidcProvider, OidcWrappedConfig } from "./oidc.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
+import { OidcProvider, OidcWrappedConfig } from './oidc.js';
 
 export interface AppleConfig extends Oauth2WrappedConfig {
-  /**
-   * The response mode to use for the authorization request.
-   * Apple requires 'form_post' response mode when requesting name or email scopes.
-   * @default "query"
-   */
-  responseMode?: "query" | "form_post"
+	/**
+	 * The response mode to use for the authorization request.
+	 * Apple requires 'form_post' response mode when requesting name or email scopes.
+	 * @default "query"
+	 */
+	responseMode?: 'query' | 'form_post';
 }
 export interface AppleOidcConfig extends OidcWrappedConfig {}
 
@@ -87,22 +87,21 @@ export interface AppleOidcConfig extends OidcWrappedConfig {}
  * ```
  */
 export function AppleProvider(config: AppleConfig) {
-  const { responseMode, ...restConfig } = config
-  const additionalQuery =
-    responseMode === "form_post"
-      ? { response_mode: "form_post", ...config.query }
-      : config.query || {}
+	const { responseMode, ...restConfig } = config;
+	const additionalQuery = responseMode === 'form_post'
+		? { response_mode: 'form_post', ...config.query }
+		: config.query || {};
 
-  return Oauth2Provider({
-    ...restConfig,
-    type: "apple" as const,
-    endpoint: {
-      authorization: "https://appleid.apple.com/auth/authorize",
-      token: "https://appleid.apple.com/auth/token",
-      jwks: "https://appleid.apple.com/auth/keys",
-    },
-    query: additionalQuery,
-  })
+	return Oauth2Provider({
+		...restConfig,
+		type: 'apple' as const,
+		endpoint: {
+			authorization: 'https://appleid.apple.com/auth/authorize',
+			token: 'https://appleid.apple.com/auth/token',
+			jwks: 'https://appleid.apple.com/auth/keys',
+		},
+		query: additionalQuery,
+	});
 }
 
 /**
@@ -119,9 +118,9 @@ export function AppleProvider(config: AppleConfig) {
  * ```
  */
 export function AppleOidcProvider(config: AppleOidcConfig) {
-  return OidcProvider({
-    ...config,
-    type: "apple" as const,
-    issuer: "https://appleid.apple.com",
-  })
+	return OidcProvider({
+		...config,
+		type: 'apple' as const,
+		issuer: 'https://appleid.apple.com',
+	});
 }

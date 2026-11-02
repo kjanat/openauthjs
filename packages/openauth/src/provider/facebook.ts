@@ -33,8 +33,8 @@
  * @packageDocumentation
  */
 
-import { Oauth2Provider, Oauth2WrappedConfig } from "./oauth2.js"
-import { OidcProvider, OidcWrappedConfig } from "./oidc.js"
+import { Oauth2Provider, Oauth2WrappedConfig } from './oauth2.js';
+import { OidcProvider, OidcWrappedConfig } from './oidc.js';
 
 export interface FacebookConfig extends Oauth2WrappedConfig {}
 export interface FacebookOidcConfig extends OidcWrappedConfig {}
@@ -52,14 +52,14 @@ export interface FacebookOidcConfig extends OidcWrappedConfig {}
  * ```
  */
 export function FacebookProvider(config: FacebookConfig) {
-  return Oauth2Provider({
-    ...config,
-    type: "facebook",
-    endpoint: {
-      authorization: "https://www.facebook.com/v12.0/dialog/oauth",
-      token: "https://graph.facebook.com/v12.0/oauth/access_token",
-    },
-  })
+	return Oauth2Provider({
+		...config,
+		type: 'facebook',
+		endpoint: {
+			authorization: 'https://www.facebook.com/v12.0/dialog/oauth',
+			token: 'https://graph.facebook.com/v12.0/oauth/access_token',
+		},
+	});
 }
 
 /**
@@ -76,9 +76,9 @@ export function FacebookProvider(config: FacebookConfig) {
  * ```
  */
 export function FacebookOidcProvider(config: FacebookOidcConfig) {
-  return OidcProvider({
-    ...config,
-    type: "facebook",
-    issuer: "https://graph.facebook.com",
-  })
+	return OidcProvider({
+		...config,
+		type: 'facebook',
+		issuer: 'https://graph.facebook.com',
+	});
 }

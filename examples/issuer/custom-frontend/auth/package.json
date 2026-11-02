@@ -1,7 +1,7 @@
 {
-  "name": "@openauthjs/example-custom-frontend-issuer",
-  "version": "0.0.0",
-  "dependencies": {
-    "@kjanat/openauth": "workspace:*"
-  }
+	"name": "@openauthjs/example-custom-frontend-issuer",
+	"version": "0.0.0",
+	"dependencies": {
+		"@kjanat/openauth": "workspace:*"
+	}
 }

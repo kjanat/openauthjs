@@ -1,9 +1,18 @@
 <p align="center">
   <a href="https://openauth.js.org">
     <picture>
-      <source srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-light.svg" media="(prefers-color-scheme: light)">
-      <img src="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-light.svg" alt="OpenAuth logo">
+      <source
+        srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-dark.svg"
+        media="(prefers-color-scheme: dark)"
+      >
+      <source
+        srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-light.svg"
+        media="(prefers-color-scheme: light)"
+      >
+      <img
+        src="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/logo-light.svg"
+        alt="OpenAuth logo"
+      >
     </picture>
   </a>
 </p>
@@ -23,9 +32,18 @@
 - **Customizable**: It comes with prebuilt themeable UI that you can customize or opt out of.
 
 <picture>
-  <source srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-dark.png" media="(prefers-color-scheme: dark)">
-  <source srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-light.png" media="(prefers-color-scheme: dark)">
-  <img src="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-light.png" alt="OpenAuth themes">
+  <source
+    srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-dark.png"
+    media="(prefers-color-scheme: dark)"
+  >
+  <source
+    srcset="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-light.png"
+    media="(prefers-color-scheme: dark)"
+  >
+  <img
+    src="https://raw.githubusercontent.com/toolbeam/identity/main/openauth/assets/themes-light.png"
+    alt="OpenAuth themes"
+  >
 </picture>
 
 ## Quick Start
@@ -59,7 +77,7 @@ We'll show how to deploy the auth server and then a sample app that uses it.
 Start by importing the `issuer` function from the `@openauthjs/openauth` package.
 
 ```ts
-import { issuer } from "@openauthjs/openauth"
+import { issuer } from '@openauthjs/openauth';
 ```
 
 OpenAuth is built on top of [Hono](https://github.com/honojs/hono) which is a minimal web framework that can run anywhere. The `issuer` function creates a Hono app with all of the auth server implemented that you can then deploy to AWS Lambda, Cloudflare Workers, or in a container running under Node.js or Bun.
@@ -130,7 +148,7 @@ const app = issuer({
 Next up is the `subjects` field. Subjects are what the access token generated at the end of the auth flow will map to. Under the hood, the access token is a JWT that contains this data. You will likely just have a single subject to start but you can define additional ones for different types of users.
 
 ```ts
-import { object, string } from "valibot"
+import { object, string } from 'valibot';
 
 const subjects = createSubjects({
   user: object({
@@ -138,7 +156,7 @@ const subjects = createSubjects({
     // may want to add workspaceID here if doing a multi-tenant app
     workspaceID: string(),
   }),
-})
+});
 ```
 
 Note we are using [valibot](https://github.com/fabian-hiller/valibot) to define the shape of the subject so it can be validated properly. You can use any validation library that is following the [standard-schema specification](https://github.com/standard-schema/standard-schema) - the next version of Zod will support this.
@@ -198,18 +216,18 @@ And now we are ready to deploy! Here's how you do that depending on your infrast
 
 ```ts
 // Bun
-export default app
+export default app;
 
 // Cloudflare
-export default app
+export default app;
 
 // Lambda
-import { handle } from "hono/aws-lambda"
-export const handler = handle(app)
+import { handle } from 'hono/aws-lambda';
+export const handler = handle(app);
 
 // Node.js
-import { serve } from "@hono/node-server"
-serve(app)
+import { serve } from '@hono/node-server';
+serve(app);
 ```
 
 You now have a centralized auth server. Test it out by visiting `/.well-known/oauth-authorization-server` - you can see a live example [here](https://auth.terminal.shop/.well-known/oauth-authorization-server).
@@ -219,12 +237,12 @@ You now have a centralized auth server. Test it out by visiting `/.well-known/oa
 Since this is a standard OAuth server you can use any libraries for OAuth and it will work. OpenAuth does provide some light tooling for this although even a manual flow is pretty simple. You can create a client like this:
 
 ```ts
-import { createClient } from "@openauthjs/openauth/client"
+import { createClient } from '@openauthjs/openauth/client';
 
 const client = createClient({
-  clientID: "my-client",
-  issuer: "https://auth.myserver.com", // url to the OpenAuth server
-})
+  clientID: 'my-client',
+  issuer: 'https://auth.myserver.com', // url to the OpenAuth server
+});
 ```
 
 #### SSR Sites
@@ -242,22 +260,22 @@ You can make up a `client_id` that represents your app. This will initiate the a
 
 ```ts
 // the redirect_uri is the original redirect_uri you passed in and is used for verification
-const tokens = await client.exchange(query.get("code"), redirect_uri)
-console.log(tokens.access, tokens.refresh)
+const tokens = await client.exchange(query.get('code'), redirect_uri);
+console.log(tokens.access, tokens.refresh);
 ```
 
 You likely want to store both the access token and refresh token in an HTTP only cookie so they are sent up with future requests. Then you can use the `client` to verify the tokens.
 
 ```ts
-const verified = await client.verify(subjects, cookies.get("access_token")!, {
-  refresh: cookies.get("refresh_token") || undefined,
-})
+const verified = await client.verify(subjects, cookies.get('access_token')!, {
+  refresh: cookies.get('refresh_token') || undefined,
+});
 console.log(
   verified.subject.type,
   verified.subject.properties,
   verified.refresh,
   verified.access,
-)
+);
 ```
 
 Passing in the refresh token is optional but if you do, this function will automatically refresh the access token if it has expired. It will return a new access token and refresh token which you should set back into the cookies.
@@ -275,33 +293,33 @@ location.href = url
 When the auth flow is complete the user's browser will be redirected to the `redirect_uri` with a `code` query parameter. You can then exchange the code for access/refresh tokens.
 
 ```ts
-const challenge = JSON.parse(localStorage.getItem("challenge"))
+const challenge = JSON.parse(localStorage.getItem('challenge'));
 const exchanged = await client.exchange(
-  query.get("code"),
+  query.get('code'),
   redirect_uri,
   challenge.verifier,
-)
-if (exchanged.err) throw new Error("Invalid code")
-localStorage.setItem("access_token", exchanged.tokens.access)
-localStorage.setItem("refresh_token", exchanged.tokens.refresh)
+);
+if (exchanged.err) throw new Error('Invalid code');
+localStorage.setItem('access_token', exchanged.tokens.access);
+localStorage.setItem('refresh_token', exchanged.tokens.refresh);
 ```
 
 Then when you make requests to your API you can include the access token in the `Authorization` header.
 
 ```ts
-const accessToken = localStorage.getItem("access_token")
-fetch("https://auth.example.com/api/user", {
+const accessToken = localStorage.getItem('access_token');
+fetch('https://auth.example.com/api/user', {
   headers: {
     Authorization: `Bearer ${accessToken}`,
   },
-})
+});
 ```
 
 And then you can verify the access token on the server.
 
 ```ts
-const verified = await client.verify(subjects, accessToken)
-console.log(verified.subject)
+const verified = await client.verify(subjects, accessToken);
+console.log(verified.subject);
 ```
 
 ---

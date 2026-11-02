@@ -1,7 +1,7 @@
 {
-  "name": "@openauthjs/example-issuer-bun",
-  "version": "0.0.0",
-  "dependencies": {
-    "@kjanat/openauth": "workspace:*"
-  }
+	"name": "@openauthjs/example-issuer-bun",
+	"version": "0.0.0",
+	"dependencies": {
+		"@kjanat/openauth": "workspace:*"
+	}
 }
