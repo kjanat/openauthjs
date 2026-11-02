@@ -13,6 +13,9 @@
 		"release": "bun run --filter=\"@kjanat/openauth\" build && changeset publish",
 		"typecheck": "bun run --filter=\"*\" typecheck"
 	},
+	"overrides": {
+		"postcss": "8.5.32"
+	},
 	"dependencies": {
 		"@changesets/cli": "3.0.3",
 		"typescript": "catalog:"
@@ -35,7 +38,12 @@
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
 		"sst": "3.5.1",
-		"vite": "^6.0.1",
+		"vite": "^8.3.5",
 		"wrangler": "4.156.1"
+	},
+	"catalogs": {
+		"ts6": {
+			"typescript": "6.0.3"
+		}
 	}
 }

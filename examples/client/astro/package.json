@@ -10,6 +10,6 @@
 	},
 	"dependencies": {
 		"@kjanat/openauth": "workspace:*",
-		"astro": "5.0.2"
+		"astro": "7.4.4"
 	}
 }

@@ -1,4 +1,4 @@
-import { createAuthClient, setTokens } from '$lib/auth.server.js';
+import { createAuthClient, setTokens } from '#lib/auth.server.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function GET(event) {

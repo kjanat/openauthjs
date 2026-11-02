@@ -1,5 +1,6 @@
-import { createAuthClient, setTokens } from '$lib/auth.server';
-import { type Handle, redirect } from '@sveltejs/kit';
+import { createAuthClient, setTokens } from '#lib/auth.server.js';
+import { redirect } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit/hooks';
 import { subjects } from '../../../subjects';
 
 export const handle: Handle = async ({ event, resolve }) => {
