@@ -1,6 +1,6 @@
 {
-  "name": "@openauthjs/openauth",
-  "version": "0.4.3",
+  "name": "@kjanat/openauth",
+  "version": "0.5.0",
   "type": "module",
   "scripts": {
     "build": "bun run script/build.ts",
@@ -42,5 +42,13 @@
   "files": [
     "src",
     "dist"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjanat/openauthjs.git",
+    "directory": "packages/openauth"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
