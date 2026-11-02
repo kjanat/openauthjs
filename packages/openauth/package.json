@@ -42,8 +42,8 @@
 	"scripts": {
 		"build": "bun run script/build.ts",
 		"test": "bun test",
-		"typegen": "wrangler types -c wrangler.jsonc --include-env=false >/dev/null",
-		"typecheck": "bun run --silent typegen && tsrs --noEmit"
+		"typecheck": "bun run --silent typegen && tsrs --noEmit",
+		"typegen": "wrangler types -c wrangler.jsonc --include-env=false >/dev/null"
 	},
 	"dependencies": {
 		"@standard-schema/spec": "1.1.0",
