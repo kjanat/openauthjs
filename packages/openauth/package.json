@@ -2,7 +2,16 @@
 	"name": "@kjanat/openauth",
 	"version": "0.5.0",
 	"description": "Standards-based OAuth 2.0 issuer and client for Hono, Bun, Node.js, AWS Lambda and Cloudflare Workers",
-	"keywords": ["oauth", "oauth2", "openid", "auth", "issuer", "pkce", "hono", "cloudflare-workers"],
+	"keywords": [
+		"oauth",
+		"oauth2",
+		"openid",
+		"auth",
+		"issuer",
+		"pkce",
+		"hono",
+		"cloudflare-workers"
+	],
 	"homepage": "https://github.com/kjanat/openauthjs#readme",
 	"repository": {
 		"type": "git",
@@ -41,12 +50,12 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "4.20241205.0",
-		"@tsconfig/node22": "22.0.0",
-		"@types/node": "22.10.1",
+		"@tsconfig/node22": "catalog:",
+		"@types/node": "catalog:",
 		"arctic": "2.2.2",
 		"hono": "4.6.9",
-		"typescript": "5.6.3",
-		"valibot": "1.0.0-beta.15"
+		"typescript": "catalog:",
+		"valibot": "catalog:"
 	},
 	"peerDependencies": {
 		"arctic": "^2.2.2",

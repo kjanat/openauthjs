@@ -3,6 +3,6 @@
 	"version": "0.0.0",
 	"dependencies": {
 		"@kjanat/openauth": "workspace:*",
-		"sst": "3.5.1"
+		"sst": "catalog:"
 	}
 }
