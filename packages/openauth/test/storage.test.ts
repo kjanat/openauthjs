@@ -1,6 +1,7 @@
 import { afterEach, setSystemTime } from 'bun:test';
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { MemoryStorage } from '../src/storage/memory.js';
+import { Storage } from '../src/storage/storage.js';
 
 let storage = MemoryStorage();
 
@@ -90,5 +91,23 @@ describe('scan', () => {
 		expect(await Array.fromAsync(storage.scan(['temp']))).toHaveLength(3);
 		setSystemTime(Date.now() + 150);
 		expect(await Array.fromAsync(storage.scan(['temp']))).toHaveLength(1);
+	});
+});
+
+describe('consume', () => {
+	test('an adapter without consume falls back to read then remove', async () => {
+		const memory = MemoryStorage();
+		const { consume: _atomic, ...readThenRemove } = memory;
+		await Storage.set(readThenRemove, ['oauth:code', 'k'], { value: 1 }, 60);
+		expect(await Storage.consume(readThenRemove, ['oauth:code', 'k'])).toEqual({ value: 1 });
+		expect(await Storage.get(readThenRemove, ['oauth:code', 'k'])).toBeUndefined();
+		expect(await Storage.consume(readThenRemove, ['oauth:code', 'k'])).toBeUndefined();
+	});
+
+	test('an adapter with consume redeems the value once', async () => {
+		const memory = MemoryStorage();
+		await Storage.set(memory, ['oauth:code', 'k'], { value: 1 }, 60);
+		expect(await Storage.consume(memory, ['oauth:code', 'k'])).toEqual({ value: 1 });
+		expect(await Storage.consume(memory, ['oauth:code', 'k'])).toBeUndefined();
 	});
 });

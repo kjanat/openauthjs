@@ -30,10 +30,10 @@ export namespace Storage {
 
 	export async function consume<T>(adapter: StorageAdapter, key: string[]) {
 		const encoded = encode(key);
-		if (!adapter.consume) {
-			throw new Error('Storage adapter does not support atomic consumption');
-		}
-		return adapter.consume(encoded) as Promise<T | null>;
+		if (adapter.consume) return adapter.consume(encoded) as Promise<T | null>;
+		const value = await adapter.get(encoded);
+		if (value !== undefined) await adapter.remove(encoded);
+		return value as T | null;
 	}
 
 	export function set(
