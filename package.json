@@ -10,7 +10,8 @@
 	],
 	"scripts": {
 		"fmt": "kfmt",
-		"release": "bun run --filter=\"@kjanat/openauth\" build && changeset publish"
+		"release": "bun run --filter=\"@kjanat/openauth\" build && changeset publish",
+		"typecheck": "bun run --filter=\"*\" typecheck"
 	},
 	"dependencies": {
 		"@changesets/cli": "3.0.3",
