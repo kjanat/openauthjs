@@ -9,3 +9,5 @@ notes
 .svelte-kit
 packages/openauth/README.md
 packages/openauth/LICENSE
+worker-configuration.d.ts
+.wrangler/

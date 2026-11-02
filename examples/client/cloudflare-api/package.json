@@ -2,7 +2,13 @@
 	"name": "cloudflare-api",
 	"version": "0.0.0",
 	"private": true,
+	"scripts": {
+		"types": "wrangler types -c wrangler.jsonc --include-env=false"
+	},
 	"dependencies": {
 		"@kjanat/openauth": "workspace:*"
+	},
+	"devDependencies": {
+		"wrangler": "catalog:"
 	}
 }

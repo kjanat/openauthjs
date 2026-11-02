@@ -17,7 +17,6 @@
  *
  * @packageDocumentation
  */
-import type { KVNamespace } from '@cloudflare/workers-types';
 import { joinKey, splitKey, StorageAdapter } from './storage.js';
 
 /**

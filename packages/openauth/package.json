@@ -49,13 +49,13 @@
 		"jose": "5.9.6"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "4.20241205.0",
 		"@tsconfig/node22": "catalog:",
 		"@types/node": "catalog:",
 		"arctic": "2.2.2",
 		"hono": "4.6.9",
 		"typescript": "catalog:",
-		"valibot": "catalog:"
+		"valibot": "catalog:",
+		"wrangler": "catalog:"
 	},
 	"peerDependencies": {
 		"arctic": "^2.2.2",

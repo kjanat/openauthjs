@@ -7,7 +7,11 @@
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"jsx": "react-jsx",
-		"jsxImportSource": "hono/jsx"
+		"jsxImportSource": "hono/jsx",
+		"rootDir": "src"
 	},
-	"include": ["src"]
+	"include": [
+		"src",
+		"worker-configuration.d.ts"
+	]
 }

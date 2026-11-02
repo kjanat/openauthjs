@@ -1,4 +1,4 @@
-import type { Service } from '@cloudflare/workers-types';
+/// <reference path="./worker-configuration.d.ts" />
 import { createClient } from '@kjanat/openauth/client';
 import { subjects } from '../../subjects';
 

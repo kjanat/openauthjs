@@ -1,8 +1,14 @@
 {
 	"name": "@openauthjs/example-issuer-cloudflare",
 	"version": "0.0.0",
+	"scripts": {
+		"types": "wrangler types -c wrangler.jsonc --include-env=false"
+	},
 	"dependencies": {
 		"@kjanat/openauth": "workspace:*",
 		"sst": "catalog:"
+	},
+	"devDependencies": {
+		"wrangler": "catalog:"
 	}
 }

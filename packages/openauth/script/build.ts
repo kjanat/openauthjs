@@ -23,4 +23,5 @@ await Bun.build({
 	root: 'src',
 	entrypoints: ['./src/ui/base.tsx'],
 });
+await $`wrangler types -c wrangler.jsonc --include-env=false`;
 await $`tsc --outDir dist/types --declaration --emitDeclarationOnly --declarationMap`;

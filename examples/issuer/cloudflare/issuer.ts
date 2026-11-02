@@ -1,4 +1,4 @@
-import { type ExecutionContext, type KVNamespace } from '@cloudflare/workers-types';
+/// <reference path="./worker-configuration.d.ts" />
 import { issuer } from '@kjanat/openauth';
 import { PasswordProvider } from '@kjanat/openauth/provider/password';
 import { CloudflareStorage } from '@kjanat/openauth/storage/cloudflare';
