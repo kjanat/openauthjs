@@ -1,4 +1,4 @@
-import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair, importPKCS8, importSPKI, JWK, KeyLike } from 'jose';
+import { exportJWK, exportPKCS8, exportSPKI, generateKeyPair, importPKCS8, importSPKI, JWK } from 'jose';
 import { Storage, StorageAdapter } from './storage/storage.js';
 
 const signingAlg = 'ES256';
@@ -16,8 +16,8 @@ interface SerializedKeyPair {
 export interface KeyPair {
 	id: string;
 	alg: string;
-	public: KeyLike;
-	private: KeyLike;
+	public: CryptoKey;
+	private: CryptoKey;
 	created: Date;
 	expired?: Date;
 	jwk: JWK;

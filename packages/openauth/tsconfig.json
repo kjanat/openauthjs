@@ -8,7 +8,14 @@
 		"moduleResolution": "NodeNext",
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx",
-		"rootDir": "src"
+		"rootDir": "src",
+		"types": [
+			"node"
+		],
+		"lib": [
+			"es2023",
+			"esnext.array"
+		]
 	},
 	"include": [
 		"src",

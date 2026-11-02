@@ -124,7 +124,7 @@
  *
  * @packageDocumentation
  */
-import type { v1 } from '@standard-schema/spec';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { Context } from 'hono';
 import { handle as awsHandle } from 'hono/aws-lambda';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
@@ -1135,7 +1135,7 @@ export function issuer<
 		const result = await jwtVerify<{
 			mode: 'access';
 			type: keyof SubjectSchema;
-			properties: v1.InferInput<SubjectSchema[keyof SubjectSchema]>;
+			properties: StandardSchemaV1.InferInput<SubjectSchema[keyof SubjectSchema]>;
 		}>(token, () => signingKey().then((item) => item.public), {
 			issuer: issuer(c),
 		});

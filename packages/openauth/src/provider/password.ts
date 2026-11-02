@@ -37,7 +37,7 @@
  *
  * @packageDocumentation
  */
-import { v1 } from '@standard-schema/spec';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { UnknownStateError } from '../error.js';
 import { generateUnbiasedDigits, timingSafeCompare } from '../random.js';
 import { Storage } from '../storage/storage.js';
@@ -149,7 +149,7 @@ export interface PasswordConfig {
 	 * ```
 	 */
 	validatePassword?:
-		| v1.StandardSchema
+		| StandardSchemaV1
 		| ((password: string) => Promise<string | undefined> | string | undefined);
 }
 
