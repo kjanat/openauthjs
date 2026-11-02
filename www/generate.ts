@@ -658,7 +658,11 @@ function renderLiteralType(type: TypeDoc.LiteralType) {
 	//   "value": "arm64"
 	// }
 	const sanitized = typeof type.value === 'string'
-		? type.value!.replace(/([*:])/g, '\\$1')
+		? type.value
+			.replace(/([\\*:])/g, '\\$1')
+			.replace(/{/g, '&lcub;')
+			.replace(/}/g, '&rcub;')
+			.replace(/</g, '&lt;')
 		: type.value;
 	return `<code class="symbol">&ldquo;</code><code class="primitive">${sanitized}</code><code class="symbol">&rdquo;</code>`;
 }
