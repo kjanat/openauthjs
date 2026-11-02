@@ -5,7 +5,7 @@
  * First, create a client.
  *
  * ```ts title="client.ts"
- * import { createClient } from "@openauthjs/openauth/client"
+ * import { createClient } from "@kjanat/openauth/client"
  *
  * const client = createClient({
  *   clientID: "my-client",
@@ -220,7 +220,7 @@ export interface ExchangeError {
 	 *
 	 * @example
 	 * ```ts
-	 * import { InvalidAuthorizationCodeError } from "@openauthjs/openauth/error"
+	 * import { InvalidAuthorizationCodeError } from "@kjanat/openauth/error"
 	 *
 	 * console.log(err instanceof InvalidAuthorizationCodeError)
 	 * ```
@@ -260,7 +260,7 @@ export interface RefreshError {
 	 *
 	 * @example
 	 * ```ts
-	 * import { InvalidRefreshTokenError } from "@openauthjs/openauth/error"
+	 * import { InvalidRefreshTokenError } from "@kjanat/openauth/error"
 	 *
 	 * console.log(err instanceof InvalidRefreshTokenError)
 	 * ```
@@ -326,7 +326,7 @@ export interface VerifyError {
 	 *
 	 * @example
 	 * ```ts
-	 * import { InvalidRefreshTokenError } from "@openauthjs/openauth/error"
+	 * import { InvalidRefreshTokenError } from "@kjanat/openauth/error"
 	 *
 	 * console.log(err instanceof InvalidRefreshTokenError)
 	 * ```
@@ -412,7 +412,7 @@ export interface Client {
 	 * you can handle depending on the error.
 	 *
 	 * ```ts
-	 * import { InvalidAuthorizationCodeError } from "@openauthjs/openauth/error"
+	 * import { InvalidAuthorizationCodeError } from "@kjanat/openauth/error"
 	 *
 	 * if (exchanged.err) {
 	 *   if (exchanged.err instanceof InvalidAuthorizationCodeError) {
@@ -460,7 +460,7 @@ export interface Client {
 	 * Or if it fails, it returns an error that you can handle depending on the error.
 	 *
 	 * ```ts
-	 * import { InvalidRefreshTokenError } from "@openauthjs/openauth/error"
+	 * import { InvalidRefreshTokenError } from "@kjanat/openauth/error"
 	 *
 	 * if (next.err) {
 	 *   if (next.err instanceof InvalidRefreshTokenError) {
@@ -514,7 +514,7 @@ export interface Client {
 	 * Or if it fails, it returns an error that you can handle depending on the error.
 	 *
 	 * ```ts
-	 * import { InvalidRefreshTokenError } from "@openauthjs/openauth/error"
+	 * import { InvalidRefreshTokenError } from "@kjanat/openauth/error"
 	 *
 	 * if (verified.err) {
 	 *   if (verified.err instanceof InvalidRefreshTokenError) {

@@ -508,7 +508,7 @@ function renderComment(declaration: TypeDoc.Reflection) {
 				`**Default** ${
 					renderType({
 						type: 'literal',
-						value: declaration.defaultValue.replace(/"/g, ''),
+						value: declaration.defaultValue.replace(/^(["'])(.*)\1$/s, '$2'),
 					} as TypeDoc.LiteralType)
 				}`,
 				`</InlineSection>`,
@@ -598,7 +598,7 @@ function renderType(type: TypeDoc.SomeType): Text {
 	// Special handle hard-to-document types
 	if (
 		type.type === 'reference'
-		&& type.package === '@openauthjs/openauth'
+		&& type.package === '@kjanat/openauth'
 		&& type.qualifiedName === 'IssuerInput.Result'
 	) {
 		return `<code class="type">${type.name}</code>`;
@@ -622,7 +622,7 @@ function renderType(type: TypeDoc.SomeType): Text {
 	if (type.type === 'array') return renderArrayType(type);
 	if (type.type === 'reference') {
 		if (type.package === 'typescript') return renderTypescriptType(type);
-		if (type.package === '@openauthjs/openauth') return renderOpenAuthType(type);
+		if (type.package === '@kjanat/openauth') return renderOpenAuthType(type);
 		if (type.package === '@standard-schema/spec') {
 			return renderStandardSchemaType(type);
 		}

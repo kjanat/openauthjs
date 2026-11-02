@@ -2,7 +2,7 @@
  * Use this provider to authenticate with Github.
  *
  * ```ts {5-8}
- * import { GithubProvider } from "@openauthjs/openauth/provider/github"
+ * import { GithubProvider } from "@kjanat/openauth/provider/github"
  *
  * export default issuer({
  *   providers: {

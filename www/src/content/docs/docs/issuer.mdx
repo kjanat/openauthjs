@@ -15,7 +15,7 @@ designed to run anywhere.
 The `issuer` function requires a few things:
 
 ```ts title="issuer.ts"
-import { issuer } from "@openauthjs/openauth"
+import { issuer } from "@kjanat/openauth"
 
 const app = issuer({
   providers: { ... },
@@ -31,8 +31,8 @@ You start by specifying the auth providers you are going to use. Let's say you w
 to be able to authenticate with GitHub and with their email and password.
 
 ```ts title="issuer.ts"
-import { GithubProvider } from "@openauthjs/openauth/provider/github"
-import { PasswordProvider } from "@openauthjs/openauth/provider/password"
+import { GithubProvider } from "@kjanat/openauth/provider/github"
+import { PasswordProvider } from "@kjanat/openauth/provider/password"
 
 const app = issuer({
   providers: {
@@ -80,7 +80,7 @@ You define the shape of these in the `subjects` field.
 
 ```ts title="subjects.ts"
 import { object, string } from "valibot"
-import { createSubjects } from "@openauthjs/openauth/subject"
+import { createSubjects } from "@kjanat/openauth/subject"
 
 const subjects = createSubjects({
   user: object({
@@ -163,6 +163,7 @@ Create an OpenAuth server, a Hono app.
   - <p>[<code class="key">retention?</code>](#ttl.retention) <code class="primitive">number</code></p>
   - <p>[<code class="key">reuse?</code>](#ttl.reuse) <code class="primitive">number</code></p>
 - <p>[<code class="key">allow?</code>](#issuerinput.allow) <code class="primitive">(input: <code class="symbol">&lcub; </code><code class="key">audience</code><code class="symbol">&colon; </code><code class="primitive">string</code><code class="symbol">, </code><code class="key">clientID</code><code class="symbol">&colon; </code><code class="primitive">string</code><code class="symbol">, </code><code class="key">redirectURI</code><code class="symbol">&colon; </code><code class="primitive">string</code><code class="symbol"> &rcub;</code>, req: <code class="type">Request</code>) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">boolean</code><code class="symbol">&gt;</code></code></p>
+- <p>[<code class="key">onError?</code>](#issuerinput.onerror) <code class="primitive">(error: <code class="primitive">Error</code><code class="symbol">&lt;</code><code class="symbol">&gt;</code>, req: <code class="type">Request</code>) => <code class="primitive">void</code><code class="symbol"> | </code><code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol">&gt;</code></code></p>
 - <p>[<code class="key">select?</code>](#issuerinput.select) <code class="primitive">(providers: <code class="primitive">Record</code><code class="symbol">&lt;</code><code class="primitive">string</code>, <code class="primitive">string</code><code class="symbol">&gt;</code>, req: <code class="type">Request</code>) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="type">Response</code><code class="symbol">&gt;</code></code></p>
 - <p>[<code class="key">success</code>](#issuerinput.success) <code class="primitive">(response: [<code class="type">OnSuccessResponder</code>](#onsuccessresponder), input: <code class="type">Result</code>, req: <code class="type">Request</code>) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="type">Response</code><code class="symbol">&gt;</code></code></p>
 </Section>
@@ -176,7 +177,7 @@ Create an OpenAuth server, a Hono app.
 </Section>
 The providers that you want your OpenAuth server to support.
 ```ts title="issuer.ts"
-import { GithubProvider } from "@openauthjs/openauth/provider/github"
+import { GithubProvider } from "@kjanat/openauth/provider/github"
 
 issuer({
   providers: {
@@ -212,7 +213,7 @@ You can also specify multiple providers.
 </Section>
 The storage adapter that you want to use.
 ```ts title="issuer.ts"
-import { DynamoStorage } from "@openauthjs/openauth/storage/dynamo"
+import { DynamoStorage } from "@kjanat/openauth/storage/dynamo"
 
 issuer({
   storage: DynamoStorage()
@@ -230,7 +231,7 @@ issuer({
 The shape of the subjects that you want to return.
 ```ts title="issuer.ts"
 import { object, string } from "valibot"
-import { createSubjects } from "@openauthjs/openauth/subject"
+import { createSubjects } from "@kjanat/openauth/subject"
 
 issuer({
   subjects: createSubjects({
@@ -254,7 +255,7 @@ The theme you want to use for the UI.
 This includes the UI the user sees when selecting a provider. And the `PasswordUI` and
 `CodeUI` that are used by the `PasswordProvider` and `CodeProvider`.
 ```ts title="issuer.ts"
-import { THEME_SST } from "@openauthjs/openauth/ui/theme"
+import { THEME_SST } from "@kjanat/openauth/ui/theme"
 
 issuer({
   theme: THEME_SST
@@ -267,7 +268,7 @@ Or define your own.
 
 
 ```ts title="issuer.ts"
-import type { Theme } from "@openauthjs/openauth/ui/theme"
+import type { Theme } from "@kjanat/openauth/ui/theme"
 
 const MY_THEME: Theme = {
   // ...
@@ -372,6 +373,16 @@ By default, it uses the following:
 }
 ```
 </Segment>
+<NestedTitle id="issuerinput.onerror" Tag="h4" parent="IssuerInput.">onError?</NestedTitle>
+<Segment>
+<Section type="parameters">
+<InlineSection>
+**Type** <code class="primitive">(error: <code class="primitive">Error</code><code class="symbol">&lt;</code><code class="symbol">&gt;</code>, req: <code class="type">Request</code>) => <code class="primitive">void</code><code class="symbol"> | </code><code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol">&gt;</code></code>
+</InlineSection>
+</Section>
+Observe errors handled by the issuer before they are converted into an
+OAuth redirect or an error response.
+</Segment>
 <NestedTitle id="issuerinput.select" Tag="h4" parent="IssuerInput.">select?</NestedTitle>
 <Segment>
 <Section type="parameters">
@@ -387,7 +398,7 @@ Optionally, configure the UI that's displayed when the user visits the root URL 
 of the OpenAuth server.
 
 ```ts title="issuer.ts"
-import { Select } from "@openauthjs/openauth/ui/select"
+import { Select } from "@kjanat/openauth/ui/select"
 
 issuer({
   select: Select({
@@ -462,7 +473,7 @@ A list of errors that can be thrown by OpenAuth.
 You can use these errors to check the type of error and handle it. For example.
 
 ```ts
-import { InvalidAuthorizationCodeError } from "@openauthjs/openauth/error"
+import { InvalidAuthorizationCodeError } from "@kjanat/openauth/error"
 
 if (err instanceof InvalidAuthorizationCodeError) {
   // handle invalid code error

@@ -3,8 +3,8 @@
  * paired with the `PasswordUI`.
  *
  * ```ts
- * import { PasswordUI } from "@openauthjs/openauth/ui/password"
- * import { PasswordProvider } from "@openauthjs/openauth/provider/password"
+ * import { PasswordUI } from "@kjanat/openauth/ui/password"
+ * import { PasswordProvider } from "@kjanat/openauth/provider/password"
  *
  * export default issuer({
  *   providers: {

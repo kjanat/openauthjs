@@ -13,8 +13,8 @@ Configures a provider that supports pin code authentication. This is usually pai
 `CodeUI`.
 
 ```ts
-import { CodeUI } from "@openauthjs/openauth/ui/code"
-import { CodeProvider } from "@openauthjs/openauth/provider/code"
+import { CodeUI } from "@kjanat/openauth/ui/code"
+import { CodeProvider } from "@kjanat/openauth/provider/code"
 
 export default issuer({
   providers: {
@@ -82,7 +82,7 @@ CodeProvider(config)
 <Section type="parameters">
 - <p>[<code class="key">length?</code>](#codeproviderconfig.length) <code class="primitive">number</code></p>
 - <p>[<code class="key">request</code>](#codeproviderconfig.request) <code class="primitive">(req: <code class="type">Request</code>, state: [<code class="type">CodeProviderState</code>](/docs/provider/code#codeproviderstate), form?: <code class="type">FormData</code>, error?: [<code class="type">CodeProviderError</code>](/docs/provider/code#codeprovidererror)) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="type">Response</code><code class="symbol">&gt;</code></code></p>
-- <p>[<code class="key">sendCode</code>](#codeproviderconfig.sendcode) <code class="primitive">(claims: <code class="primitive">Record</code><code class="symbol">&lt;</code><code class="primitive">string</code>, <code class="primitive">string</code><code class="symbol">&gt;</code>, code: <code class="primitive">string</code>) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol"> | </code>[<code class="type">CodeProviderError</code>](/docs/provider/code#codeprovidererror)<code class="symbol">&gt;</code></code></p>
+- <p>[<code class="key">sendCode</code>](#codeproviderconfig.sendcode) <code class="primitive">(claims: <code class="primitive">Record</code><code class="symbol">&lt;</code><code class="primitive">string</code>, <code class="primitive">string</code><code class="symbol">&gt;</code>, code: <code class="primitive">string</code>, request: [<code class="type">CodeProviderRequest</code>](/docs/provider/code#codeproviderrequest)) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol"> | </code>[<code class="type">CodeProviderError</code>](/docs/provider/code#codeprovidererror)<code class="symbol">&gt;</code></code></p>
 </Section>
 </Segment>
 <NestedTitle id="codeproviderconfig.length" Tag="h4" parent="CodeProviderConfig.">length?</NestedTitle>
@@ -120,7 +120,7 @@ in return.
 <Segment>
 <Section type="parameters">
 <InlineSection>
-**Type** <code class="primitive">(claims: <code class="primitive">Record</code><code class="symbol">&lt;</code><code class="primitive">string</code>, <code class="primitive">string</code><code class="symbol">&gt;</code>, code: <code class="primitive">string</code>) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol"> | </code>[<code class="type">CodeProviderError</code>](/docs/provider/code#codeprovidererror)<code class="symbol">&gt;</code></code>
+**Type** <code class="primitive">(claims: <code class="primitive">Record</code><code class="symbol">&lt;</code><code class="primitive">string</code>, <code class="primitive">string</code><code class="symbol">&gt;</code>, code: <code class="primitive">string</code>, request: [<code class="type">CodeProviderRequest</code>](/docs/provider/code#codeproviderrequest)) => <code class="primitive">Promise</code><code class="symbol">&lt;</code><code class="primitive">void</code><code class="symbol"> | </code>[<code class="type">CodeProviderError</code>](/docs/provider/code#codeprovidererror)<code class="symbol">&gt;</code></code>
 </InlineSection>
 </Section>
 Callback to send the pin code to the user.
@@ -145,6 +145,29 @@ The errors that can happen on the code flow.
 | ----- | ----------- |
 | `invalid_code` | The code is invalid. |
 | `invalid_claim` | The _claim_, email or phone number, is invalid. |
+</Segment>
+## CodeProviderRequest
+<Segment>
+<Section type="parameters">
+- <p>[<code class="key">action</code>](#codeproviderrequest.action) <code class="symbol">&ldquo;</code><code class="primitive">request</code><code class="symbol">&rdquo;</code><code class="symbol"> | </code><code class="symbol">&ldquo;</code><code class="primitive">resend</code><code class="symbol">&rdquo;</code></p>
+- <p>[<code class="key">request</code>](#codeproviderrequest.request) <code class="type">Request</code></p>
+</Section>
+</Segment>
+<NestedTitle id="codeproviderrequest.action" Tag="h4" parent="CodeProviderRequest.">action</NestedTitle>
+<Segment>
+<Section type="parameters">
+<InlineSection>
+**Type** <code class="symbol">&ldquo;</code><code class="primitive">request</code><code class="symbol">&rdquo;</code><code class="symbol"> | </code><code class="symbol">&ldquo;</code><code class="primitive">resend</code><code class="symbol">&rdquo;</code>
+</InlineSection>
+</Section>
+</Segment>
+<NestedTitle id="codeproviderrequest.request" Tag="h4" parent="CodeProviderRequest.">request</NestedTitle>
+<Segment>
+<Section type="parameters">
+<InlineSection>
+**Type** <code class="type">Request</code>
+</InlineSection>
+</Section>
 </Segment>
 ## CodeProviderState
 <Segment>
