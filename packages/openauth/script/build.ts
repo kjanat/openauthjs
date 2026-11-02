@@ -2,6 +2,7 @@ import { $, Glob } from 'bun';
 import pkg from '../package.json';
 
 await $`rm -rf dist`;
+await $`cp ../../README.md ../../LICENSE .`;
 const files = new Glob('./src/**/*.{ts,tsx}').scan();
 for await (const file of files) {
 	await Bun.build({

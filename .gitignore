@@ -7,3 +7,5 @@ persist.json
 notes
 .nvim.lua
 .svelte-kit
+packages/openauth/README.md
+packages/openauth/LICENSE
