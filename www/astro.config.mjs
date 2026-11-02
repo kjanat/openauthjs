@@ -5,11 +5,24 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import theme from 'toolbeam-docs-theme';
 import config from './config';
 
-const url = 'https://openauth.js.org';
+const site = 'https://kjanat.github.io';
+const base = '/openauthjs/';
+
+function rehypeBaseLinks() {
+	const visit = (node) => {
+		const href = node.properties?.href;
+		if (node.tagName === 'a' && typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
+			node.properties.href = base + href.slice(1);
+		}
+		node.children?.forEach(visit);
+	};
+	return visit;
+}
 
 // https://astro.build/config
 export default defineConfig({
-	site: url,
+	site,
+	base,
 	trailingSlash: 'always',
 	devToolbar: {
 		enabled: false,
@@ -24,7 +37,7 @@ export default defineConfig({
 					tag: 'link',
 					attrs: {
 						rel: 'icon',
-						href: '/favicon.ico',
+						href: `${base}favicon.ico`,
 						sizes: '48x48',
 					},
 				},
@@ -33,7 +46,7 @@ export default defineConfig({
 					tag: 'link',
 					attrs: {
 						rel: 'icon',
-						href: '/favicon.svg',
+						href: `${base}favicon.svg`,
 						media: '(prefers-color-scheme: light)',
 					},
 				},
@@ -41,7 +54,7 @@ export default defineConfig({
 					tag: 'link',
 					attrs: {
 						rel: 'icon',
-						href: '/favicon-dark.svg',
+						href: `${base}favicon-dark.svg`,
 						media: '(prefers-color-scheme: dark)',
 					},
 				},
@@ -49,14 +62,14 @@ export default defineConfig({
 					tag: 'meta',
 					attrs: {
 						property: 'og:image',
-						content: `${url}/social-share.png`,
+						content: `${site}${base}social-share.png`,
 					},
 				},
 				{
 					tag: 'meta',
 					attrs: {
 						property: 'twitter:image',
-						content: `${url}/social-share.png`,
+						content: `${site}${base}social-share.png`,
 					},
 				},
 			],
@@ -131,6 +144,7 @@ export default defineConfig({
 		rehypePlugins: [
 			rehypeHeadingIds,
 			[rehypeAutolinkHeadings, { behavior: 'wrap' }],
+			rehypeBaseLinks,
 		],
 	},
 });
