@@ -1,5 +1,12 @@
 # @openauthjs/openauth
 
+## 0.5.1
+
+### Patch Changes
+
+- 4886bbb: Update `jose` to 6.2.15 and `@standard-schema/spec` to 1.1.0. `KeyPair` keys are typed as `CryptoKey`, and subject schemas are typed as `StandardSchemaV1`. Signing and encryption keys stored by earlier versions still load, and tokens they issued still verify and decrypt.
+- 023459c: Redeem authorization codes on storage adapters without `consume`, such as the built-in Cloudflare KV and DynamoDB storages, by reading and then removing the code. 0.5.0 threw instead, so code exchange failed on those adapters.
+
 ## 0.4.3
 
 ### Patch Changes
