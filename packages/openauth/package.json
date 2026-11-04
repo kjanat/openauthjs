@@ -1,6 +1,6 @@
 {
 	"name": "@kjanat/openauth",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"description": "Standards-based OAuth 2.0 issuer and client for Hono, Bun, Node.js, AWS Lambda and Cloudflare Workers",
 	"keywords": [
 		"oauth",
