@@ -477,6 +477,17 @@ export interface Client {
 		opts?: RefreshOptions,
 	): Promise<RefreshSuccess | RefreshError>;
 	/**
+	 * Revoke a refresh token at the issuer, for example when the user signs out.
+	 *
+	 * ```ts
+	 * await client.revoke(<refresh_token>)
+	 * ```
+	 *
+	 * The issuer answers unknown and already revoked tokens the same way, so this only
+	 * throws when the revocation request itself fails.
+	 */
+	revoke(refresh: string): Promise<void>;
+	/**
 	 * Verify the token in the incoming request.
 	 *
 	 * This is typically used for SSR sites where the token is stored in an HTTP only cookie. And
@@ -685,6 +696,20 @@ export function createClient(input: ClientInput): Client {
 					expiresIn: json.expires_in as number,
 				},
 			};
+		},
+		async revoke(refresh: string): Promise<void> {
+			const response = await f(issuer + '/revoke', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: new URLSearchParams({
+					token: refresh,
+					token_type_hint: 'refresh_token',
+					client_id: input.clientID,
+				}).toString(),
+			});
+			if (!response.ok) throw new Error('Token revocation failed');
 		},
 		async verify<T extends SubjectSchema>(
 			subjects: T,

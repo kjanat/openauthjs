@@ -342,6 +342,43 @@ describe('refresh token', () => {
 		const reused = await response.json();
 		expect(reused.error).toBe('invalid_request');
 	});
+
+	test('revoked token cannot refresh', async () => {
+		await client.revoke(tokens.refresh);
+		const response = await requestRefreshToken(tokens.refresh);
+		expect(response.status).toBe(400);
+		expect((await response.json()).error).toBe('invalid_grant');
+	});
+
+	test('revocation by another client keeps the token', async () => {
+		const other = createClient({
+			issuer: 'https://auth.example.com',
+			clientID: 'other',
+			fetch: (a, b) => Promise.resolve(auth.request(a, b)),
+		});
+		await other.revoke(tokens.refresh);
+		const response = await requestRefreshToken(tokens.refresh);
+		expect(response.status).toBe(200);
+	});
+
+	test('unknown token revocation succeeds', async () => {
+		const response = await auth.request('https://auth.example.com/revoke', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: new URLSearchParams({ token: 'user:unknown', client_id: '123' }).toString(),
+		});
+		expect(response.status).toBe(200);
+	});
+
+	test('revocation without a token fails', async () => {
+		const response = await auth.request('https://auth.example.com/revoke', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: new URLSearchParams({ client_id: '123' }).toString(),
+		});
+		expect(response.status).toBe(400);
+		expect((await response.json()).error).toBe('invalid_request');
+	});
 });
 
 describe('user info', () => {

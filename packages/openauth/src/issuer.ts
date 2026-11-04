@@ -782,10 +782,45 @@ export function issuer<
 				issuer: iss,
 				authorization_endpoint: `${iss}/authorize`,
 				token_endpoint: `${iss}/token`,
+				revocation_endpoint: `${iss}/revoke`,
 				jwks_uri: `${iss}/.well-known/jwks.json`,
 				response_types_supported: ['code'],
 				code_challenge_methods_supported: ['S256'],
 			});
+		},
+	);
+
+	app.post(
+		'/revoke',
+		cors({
+			origin: '*',
+			allowHeaders: ['*'],
+			allowMethods: ['POST'],
+			credentials: false,
+		}),
+		async (c) => {
+			const form = await c.req.formData();
+			const token = form.get('token');
+			const clientID = form.get('client_id');
+			if (typeof token !== 'string' || !token || typeof clientID !== 'string' || !clientID) {
+				return c.json(
+					{
+						error: 'invalid_request',
+						error_description: 'Missing token or client_id',
+					},
+					400,
+				);
+			}
+			const splits = token.split(':');
+			const secret = splits.pop();
+			const subject = splits.join(':');
+			if (secret && subject) {
+				const key = ['oauth:refresh', subject, secret];
+				const payload = await Storage.get<{ clientID: string }>(storage, key);
+				if (payload?.clientID === clientID) await Storage.remove(storage, key);
+			}
+			// RFC 7009 section 2.2: invalid and unknown tokens also receive 200.
+			return c.body(null, 200);
 		},
 	);
 
