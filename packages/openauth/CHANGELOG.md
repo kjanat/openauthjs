@@ -1,5 +1,11 @@
 # @openauthjs/openauth
 
+## 0.6.0
+
+### Minor Changes
+
+- 345525a: Add RFC 7009 refresh token revocation. The issuer serves `POST /revoke` and advertises it as `revocation_endpoint`; it deletes a refresh token only for the client that owns it. Clients call `client.revoke(refresh)`, for example when a user signs out.
+
 ## 0.5.1
 
 ### Patch Changes
